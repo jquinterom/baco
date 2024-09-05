@@ -1,15 +1,11 @@
 package co.baco.baco.ui.screens.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,7 +24,7 @@ fun Input(modifier: Modifier = Modifier) {
         mutableStateOf("")
     }
 
-    TextField(
+    OutlinedTextField(
         value = amount,
         onValueChange = { newAmount ->
             if (newAmount.all { it.isDigit() }) {
@@ -37,7 +33,13 @@ fun Input(modifier: Modifier = Modifier) {
         },
         modifier = modifier.fillMaxWidth(),
         label = { Text("Monto") },
-        trailingIcon = { Icon(painter = painterResource(id = R.drawable.cancel), contentDescription = null) },
+        trailingIcon = {
+            Icon(
+                modifier = Modifier.clickable { amount = "" },
+                painter = painterResource(id = R.drawable.cancel),
+                contentDescription = null
+            )
+        },
         placeholder = { Text("$2.000") },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
     )
