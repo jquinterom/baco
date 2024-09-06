@@ -21,7 +21,7 @@ import co.baco.baco.ui.screens.components.SubmitButton
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier, onNavigateToItemListScreen: () -> Unit) {
     Column(
         modifier = modifier
             .padding(horizontal = 16.dp)
@@ -31,19 +31,18 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         Input()
         DepositOrExpense()
         SubmitButton()
-        SeeAll()
+        SeeAll(onNavigateToItemListScreen)
         RegisterList()
     }
 }
 
 @Composable
-fun SeeAll() {
+fun SeeAll(onNavigateToItemListScreen: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.CenterEnd
-        ) {
-
-        TextButton(onClick = { /*TODO*/ }) {
+    ) {
+        TextButton(onClick = { onNavigateToItemListScreen() }) {
             Text(text = "Ver todo")
         }
     }
@@ -53,6 +52,6 @@ fun SeeAll() {
 @Composable
 private fun HomeScreenPrev() {
     BacoTheme {
-        HomeScreen()
+        HomeScreen(modifier = Modifier) {}
     }
 }
