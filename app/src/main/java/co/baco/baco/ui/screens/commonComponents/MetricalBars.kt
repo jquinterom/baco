@@ -1,4 +1,4 @@
-package co.baco.baco.ui.screens.components
+package co.baco.baco.ui.screens.commonComponents
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable

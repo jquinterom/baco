@@ -1,4 +1,4 @@
-package co.baco.baco.ui.screens.components
+package co.baco.baco.ui.screens.commonComponents
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -20,6 +20,8 @@ import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,7 +31,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -37,8 +38,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import co.baco.baco.common.entities.Constants
 import co.baco.baco.common.entities.Register
-import co.baco.baco.common.entities.RegisterType
+import co.baco.baco.ui.theme.BacoTheme
 
 @SuppressLint("DefaultLocale")
 @Composable
@@ -54,7 +56,10 @@ fun RegisterItem(registerType: Register) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(color = Color.DarkGray, shape = RoundedCornerShape(4.dp)),
+            .background(
+                color = MaterialTheme.colorScheme.onSecondary,
+                shape = RoundedCornerShape(4.dp)
+            ),
     ) {
         Column(
             Modifier
@@ -67,14 +72,21 @@ fun RegisterItem(registerType: Register) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = String.format("%.0f", registerType.amount))
+                Text(
+                    text = String.format("%.0f", registerType.amount),
+                    color = MaterialTheme.colorScheme.tertiary
+                )
 
                 if (registerType.comment.isNullOrEmpty()) {
                     IconButton(
                         onClick = { showComment = !showComment },
                         modifier = Modifier
                             .clip(CircleShape)
-                            .size(20.dp)
+                            .size(20.dp),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = MaterialTheme.colorScheme.secondary,
+                            contentColor = MaterialTheme.colorScheme.tertiary
+                        )
                     ) {
                         Icon(
                             imageVector = icon,
@@ -105,6 +117,17 @@ fun RegisterItem(registerType: Register) {
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun RegisterItemPrev() {
-    RegisterItem(Register(amount = 3000f, type = RegisterType.DEPOSIT))
+private fun RegisterItemPrevDark() {
+    BacoTheme {
+        RegisterItem(Register(amount = 3000f, type = Constants.RegisterType.DEPOSIT))
+    }
+}
+
+
+@Preview()
+@Composable
+private fun RegisterItemPrevLight() {
+    BacoTheme {
+        RegisterItem(Register(amount = 3000f, type = Constants.RegisterType.DEPOSIT))
+    }
 }

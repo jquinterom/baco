@@ -1,5 +1,6 @@
-package co.baco.baco.ui.screens.components
+package co.baco.baco.ui.screens.commonComponents
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -41,13 +42,22 @@ fun Input(modifier: Modifier = Modifier) {
             )
         },
         placeholder = { Text("$2.000") },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     )
 }
 
-@Preview(showBackground = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-fun InputPrev() {
+fun InputPrevDark() {
+    BacoTheme {
+        Input()
+    }
+}
+
+
+@Preview()
+@Composable
+fun InputPrevLight() {
     BacoTheme {
         Input()
     }

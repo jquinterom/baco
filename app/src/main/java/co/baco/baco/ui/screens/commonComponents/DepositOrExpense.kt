@@ -1,4 +1,4 @@
-package co.baco.baco.ui.screens.components
+package co.baco.baco.ui.screens.commonComponents
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
@@ -13,7 +13,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -55,7 +58,8 @@ fun DepositOrExpense() {
             ItemRadioButton(
                 text = "Ingreso",
                 selected = itemSelected == Process.DEPOSIT,
-                onClick = { itemSelected = Process.DEPOSIT })
+                onClick = { itemSelected = Process.DEPOSIT },
+            )
 
             ItemRadioButton(
                 text = "Egreso",
@@ -89,10 +93,14 @@ fun ItemRadioButton(
     {
         RadioButton(
             selected = selected,
-            onClick = { onClick() }
+            onClick = { onClick() },
+            colors = RadioButtonDefaults.colors(
+                selectedColor = MaterialTheme.colorScheme.secondary,
+                unselectedColor = MaterialTheme.colorScheme.tertiary
+            )
         )
         Spacer(modifier = Modifier.width(4.dp))
-        Text(text = text)
+        Text(text = text, color = MaterialTheme.colorScheme.tertiary)
     }
 }
 
@@ -104,11 +112,21 @@ fun Comment(isChecked: Boolean, setChecked: (e: Boolean) -> Unit) {
     ) {
         Checkbox(
             checked = isChecked,
-            onCheckedChange = { setChecked(!isChecked) })
+            onCheckedChange = { setChecked(!isChecked) },
+            colors = CheckboxDefaults.colors(
+                checkedColor = MaterialTheme.colorScheme.secondary,
+                uncheckedColor = MaterialTheme.colorScheme.tertiary,
+                checkmarkColor = MaterialTheme.colorScheme.tertiary
+            )
+        )
 
         Spacer(modifier = Modifier.width(4.dp))
 
-        Text(text = "Comentario", modifier = Modifier.clickable { setChecked(!isChecked) })
+        Text(
+            text = "Comentario",
+            modifier = Modifier.clickable { setChecked(!isChecked) },
+            color = MaterialTheme.colorScheme.tertiary
+        )
     }
 }
 
