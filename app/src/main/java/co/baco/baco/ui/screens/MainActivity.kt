@@ -1,4 +1,4 @@
-package co.baco.baco
+package co.baco.baco.ui.screens
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import co.baco.baco.ui.navigation.AppNavigation
 import co.baco.baco.ui.theme.BacoTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

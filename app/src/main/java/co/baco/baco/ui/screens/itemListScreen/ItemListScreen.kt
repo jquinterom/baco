@@ -3,7 +3,6 @@ package co.baco.baco.ui.screens.itemListScreen
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,7 +26,6 @@ import co.baco.baco.common.entities.Register
 import co.baco.baco.ui.screens.commonComponents.RegisterItem
 import co.baco.baco.ui.screens.itemListScreen.components.ItemBar
 import co.baco.baco.ui.theme.BacoTheme
-import co.baco.baco.ui.theme.Color
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
