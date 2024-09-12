@@ -11,6 +11,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,15 +27,19 @@ import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, onNavigateToItemListScreen: () -> Unit) {
+    var submitEnabled by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     Column(
         modifier = modifier
             .padding(horizontal = 16.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Input()
+        Input(submitEnabled = { submitEnabled = it })
         DepositOrExpense()
-        SubmitButton()
+        SubmitButton(enabled = submitEnabled)
         SeeAll(onNavigateToItemListScreen)
         RegisterList()
     }
@@ -56,7 +64,6 @@ private fun HomeScreenPrevDark() {
         HomeScreen(modifier = Modifier) {}
     }
 }
-
 
 
 @Preview(showBackground = true)

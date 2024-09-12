@@ -14,13 +14,14 @@ import androidx.compose.ui.unit.dp
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
-fun SubmitButton() {
+fun SubmitButton(enabled: Boolean = false) {
     Button(
         modifier = Modifier.fillMaxWidth(),
         onClick = { /*TODO*/ },
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.secondary)
+            containerColor = MaterialTheme.colorScheme.secondary),
+        enabled = enabled
     ) {
         Text(text = "Guardar", color = MaterialTheme.colorScheme.tertiary)
     }

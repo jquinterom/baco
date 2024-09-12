@@ -20,7 +20,7 @@ import co.baco.baco.R
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
-fun Input(modifier: Modifier = Modifier) {
+fun Input(modifier: Modifier = Modifier, submitEnabled: (Boolean) -> Unit) {
     var amount by rememberSaveable {
         mutableStateOf("")
     }
@@ -30,17 +30,23 @@ fun Input(modifier: Modifier = Modifier) {
         onValueChange = { newAmount ->
             if (newAmount.all { it.isDigit() }) {
                 amount = newAmount
+                submitEnabled(newAmount.isNotEmpty())
             }
         },
         modifier = modifier.fillMaxWidth(),
-        label = { Text("Monto") },
         trailingIcon = {
-            Icon(
-                modifier = Modifier.clickable { amount = "" },
-                painter = painterResource(id = R.drawable.cancel),
-                contentDescription = null
-            )
+            if (amount.isNotEmpty()) {
+                Icon(
+                    modifier = Modifier.clickable {
+                        amount = ""
+                        submitEnabled(false)
+                    },
+                    painter = painterResource(id = R.drawable.cancel),
+                    contentDescription = "Cancel"
+                )
+            }
         },
+        label = { Text("Monto") },
         placeholder = { Text("$2.000") },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     )
@@ -50,15 +56,15 @@ fun Input(modifier: Modifier = Modifier) {
 @Composable
 fun InputPrevDark() {
     BacoTheme {
-        Input()
+        Input(submitEnabled = {})
     }
 }
 
 
-@Preview()
+@Preview
 @Composable
 fun InputPrevLight() {
     BacoTheme {
-        Input()
+        Input(submitEnabled = {})
     }
 }
