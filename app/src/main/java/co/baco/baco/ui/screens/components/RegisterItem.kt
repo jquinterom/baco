@@ -1,4 +1,4 @@
-package co.baco.baco.ui.screens.commonComponents
+package co.baco.baco.ui.screens.components
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -72,9 +72,13 @@ fun RegisterItem(registerType: Register) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                val textColor = when (registerType.type) {
+                    Constants.RegisterType.DEPOSIT -> co.baco.baco.ui.theme.Color.Danube
+                    Constants.RegisterType.EXPENSE -> co.baco.baco.ui.theme.Color.Amethist
+                }
                 Text(
                     text = String.format("%.0f", registerType.amount),
-                    color = MaterialTheme.colorScheme.tertiary
+                    color = textColor
                 )
 
                 if (registerType.comment.isNullOrEmpty()) {
@@ -85,7 +89,7 @@ fun RegisterItem(registerType: Register) {
                             .size(20.dp),
                         colors = IconButtonDefaults.iconButtonColors(
                             containerColor = MaterialTheme.colorScheme.secondary,
-                            contentColor = MaterialTheme.colorScheme.tertiary
+                            contentColor = textColor
                         )
                     ) {
                         Icon(
@@ -124,7 +128,7 @@ private fun RegisterItemPrevDark() {
 }
 
 
-@Preview()
+@Preview
 @Composable
 private fun RegisterItemPrevLight() {
     BacoTheme {

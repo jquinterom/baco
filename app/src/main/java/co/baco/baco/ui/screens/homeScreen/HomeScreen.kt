@@ -15,10 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import co.baco.baco.ui.screens.commonComponents.DepositOrExpense
-import co.baco.baco.ui.screens.commonComponents.Input
-import co.baco.baco.ui.screens.commonComponents.RegisterList
-import co.baco.baco.ui.screens.commonComponents.SubmitButton
+import co.baco.baco.ui.screens.components.DepositOrExpense
+import co.baco.baco.ui.screens.components.Input
+import co.baco.baco.ui.screens.components.RegisterList
+import co.baco.baco.ui.screens.components.SubmitButton
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable

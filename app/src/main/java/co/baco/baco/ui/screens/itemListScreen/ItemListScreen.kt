@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.baco.baco.common.entities.Constants
 import co.baco.baco.common.entities.Register
-import co.baco.baco.ui.screens.commonComponents.RegisterItem
+import co.baco.baco.ui.screens.components.RegisterItem
 import co.baco.baco.ui.screens.itemListScreen.components.ItemBar
 import co.baco.baco.ui.theme.BacoTheme
 

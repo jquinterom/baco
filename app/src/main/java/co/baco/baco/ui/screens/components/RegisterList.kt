@@ -1,4 +1,4 @@
-package co.baco.baco.ui.screens.commonComponents
+package co.baco.baco.ui.screens.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
