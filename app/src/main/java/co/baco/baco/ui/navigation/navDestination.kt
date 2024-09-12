@@ -7,3 +7,6 @@ object Home
 
 @Serializable
 object ItemListScreen
+
+@Serializable
+object BacoGraph
