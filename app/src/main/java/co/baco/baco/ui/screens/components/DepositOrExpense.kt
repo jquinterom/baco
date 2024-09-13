@@ -25,6 +25,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.baco.baco.ui.theme.BacoTheme
@@ -92,6 +93,7 @@ fun ItemRadioButton(
     )
     {
         RadioButton(
+            modifier = Modifier.testTag(tag = text),
             selected = selected,
             onClick = { onClick() },
             colors = RadioButtonDefaults.colors(
@@ -111,6 +113,7 @@ fun Comment(isChecked: Boolean, setChecked: (e: Boolean) -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Checkbox(
+            modifier = Modifier.testTag("checkboxComment"),
             checked = isChecked,
             onCheckedChange = { setChecked(!isChecked) },
             colors = CheckboxDefaults.colors(

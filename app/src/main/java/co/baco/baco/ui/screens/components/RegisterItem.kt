@@ -32,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -44,12 +45,10 @@ import co.baco.baco.ui.theme.BacoTheme
 
 @SuppressLint("DefaultLocale")
 @Composable
-fun RegisterItem(registerType: Register) {
-
+fun RegisterItem(register: Register) {
     var showComment by rememberSaveable {
         mutableStateOf(false)
     }
-
     val icon: ImageVector =
         if (showComment) Icons.Filled.KeyboardArrowUp else Icons.Rounded.KeyboardArrowDown
 
@@ -72,26 +71,31 @@ fun RegisterItem(registerType: Register) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val textColor = when (registerType.type) {
+                val textColor = when (register.type) {
                     Constants.RegisterType.DEPOSIT -> co.baco.baco.ui.theme.Color.Danube
                     Constants.RegisterType.EXPENSE -> co.baco.baco.ui.theme.Color.Amethist
                 }
                 Text(
-                    text = String.format("%.0f", registerType.amount),
+                    text = String.format("%.0f", register.amount),
                     color = textColor
                 )
 
-                if (registerType.comment.isNullOrEmpty()) {
+                if (register.comment.isNullOrEmpty()) {
                     IconButton(
                         onClick = { showComment = !showComment },
                         modifier = Modifier
                             .clip(CircleShape)
-                            .size(20.dp),
+                            .size(20.dp)
+                            .testTag(
+                                tag = "showComment",
+                            ),
                         colors = IconButtonDefaults.iconButtonColors(
                             containerColor = MaterialTheme.colorScheme.secondary,
                             contentColor = textColor
-                        )
-                    ) {
+                        ),
+
+
+                        ) {
                         Icon(
                             imageVector = icon,
                             contentDescription = "Favorite"
@@ -106,6 +110,9 @@ fun RegisterItem(registerType: Register) {
                 exit = fadeOut()
             ) {
                 Text(
+                    modifier = Modifier.testTag(
+                        tag = "commentTest"
+                    ),
                     text = "Comment",
                     style = TextStyle(
                         fontSize = 14.sp,

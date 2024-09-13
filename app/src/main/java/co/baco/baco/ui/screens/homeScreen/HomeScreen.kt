@@ -39,7 +39,7 @@ fun HomeScreen(modifier: Modifier = Modifier, onNavigateToItemListScreen: () -> 
     ) {
         Input(submitEnabled = { submitEnabled = it })
         DepositOrExpense()
-        SubmitButton(enabled = submitEnabled)
+        SubmitButton(isEnabled = submitEnabled)
         SeeAll(onNavigateToItemListScreen)
         RegisterList()
     }

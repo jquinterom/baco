@@ -9,20 +9,27 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
-fun SubmitButton(enabled: Boolean = false) {
+fun SubmitButton(isEnabled: Boolean = false, onClick: () -> Unit = {}) {
     Button(
-        modifier = Modifier.fillMaxWidth(),
-        onClick = { /*TODO*/ },
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics {
+                contentDescription = "saveButton"
+            },
+        onClick = onClick,
         shape = RoundedCornerShape(8.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.secondary),
-        enabled = enabled
-    ) {
+            containerColor = MaterialTheme.colorScheme.secondary
+        ),
+        enabled = isEnabled,
+        ) {
         Text(text = "Guardar", color = MaterialTheme.colorScheme.tertiary)
     }
 }
