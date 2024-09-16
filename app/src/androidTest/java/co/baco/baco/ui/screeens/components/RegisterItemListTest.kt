@@ -7,7 +7,7 @@ import co.baco.baco.ui.screens.components.RegisterList
 import org.junit.Rule
 import org.junit.Test
 
-class RegisterListTest {
+class RegisterItemListTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 

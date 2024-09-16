@@ -40,12 +40,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import co.baco.baco.common.entities.Constants
-import co.baco.baco.common.entities.Register
+import co.baco.baco.common.entities.RegisterItem
 import co.baco.baco.ui.theme.BacoTheme
 
 @SuppressLint("DefaultLocale")
 @Composable
-fun RegisterItem(register: Register) {
+fun RegisterItem(registerItem: RegisterItem) {
     var showComment by rememberSaveable {
         mutableStateOf(false)
     }
@@ -71,16 +71,16 @@ fun RegisterItem(register: Register) {
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val textColor = when (register.type) {
+                val textColor = when (registerItem.type) {
                     Constants.RegisterType.DEPOSIT -> co.baco.baco.ui.theme.Color.Danube
                     Constants.RegisterType.EXPENSE -> co.baco.baco.ui.theme.Color.Amethist
                 }
                 Text(
-                    text = String.format("%.0f", register.amount),
+                    text = String.format("%.0f", registerItem.amount),
                     color = textColor
                 )
 
-                if (register.comment.isNullOrEmpty()) {
+                if (registerItem.comment.isNullOrEmpty()) {
                     IconButton(
                         onClick = { showComment = !showComment },
                         modifier = Modifier
@@ -130,7 +130,7 @@ fun RegisterItem(register: Register) {
 @Composable
 private fun RegisterItemPrevDark() {
     BacoTheme {
-        RegisterItem(Register(amount = 3000f, type = Constants.RegisterType.DEPOSIT))
+        RegisterItem(RegisterItem(amount = 3000f, type = Constants.RegisterType.DEPOSIT))
     }
 }
 
@@ -139,6 +139,6 @@ private fun RegisterItemPrevDark() {
 @Composable
 private fun RegisterItemPrevLight() {
     BacoTheme {
-        RegisterItem(Register(amount = 3000f, type = Constants.RegisterType.DEPOSIT))
+        RegisterItem(RegisterItem(amount = 3000f, type = Constants.RegisterType.DEPOSIT))
     }
 }

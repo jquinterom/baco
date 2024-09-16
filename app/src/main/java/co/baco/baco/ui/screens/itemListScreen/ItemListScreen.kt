@@ -1,6 +1,7 @@
 package co.baco.baco.ui.screens.itemListScreen
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,16 +22,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import co.baco.baco.common.entities.Constants
-import co.baco.baco.common.entities.Register
+import co.baco.baco.common.entities.RegisterItem
 import co.baco.baco.ui.screens.components.RegisterItem
 import co.baco.baco.ui.screens.itemListScreen.components.ItemBar
+import co.baco.baco.ui.screens.itemListScreen.viewModel.ItemListViewModel
 import co.baco.baco.ui.theme.BacoTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ItemListScreen() {
-    val newRegister = Register(amount = 5000f, type = Constants.RegisterType.EXPENSE)
+fun ItemListScreen(viewModel: ItemListViewModel = hiltViewModel()) {
+
+    viewModel.items.observeForever {
+        Log.i("itemLists", it.size.toString())
+    }
+
+
+    val newRegisterItem = RegisterItem(amount = 5000f, type = Constants.RegisterType.EXPENSE)
     val state = rememberLazyListState(
         prefetchStrategy = LazyListPrefetchStrategy(3),
     )
@@ -45,7 +54,7 @@ fun ItemListScreen() {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        ItemsBody(state, newRegister)
+        ItemsBody(state, newRegisterItem)
     }
 }
 
@@ -74,13 +83,13 @@ fun ItemsHeader() {
 }
 
 @Composable
-fun ItemsBody(state: LazyListState, newRegister: Register) {
+fun ItemsBody(state: LazyListState, newRegisterItem: RegisterItem) {
     LazyColumn(
         state = state,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(20, key = { it }) {
-            RegisterItem(newRegister)
+            RegisterItem(newRegisterItem)
         }
     }
 }

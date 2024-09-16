@@ -7,22 +7,22 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import co.baco.baco.common.entities.Constants
-import co.baco.baco.common.entities.Register
+import co.baco.baco.common.entities.RegisterItem
 import co.baco.baco.ui.screens.components.RegisterItem
 import org.junit.Rule
 import org.junit.Test
 
-class RegisterItemTest {
+class RegisterItemItemTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
 
     @Test
     fun testRegisterItem() {
-        val register = Register(amount = 3000f, type = Constants.RegisterType.DEPOSIT)
+        val registerItem = RegisterItem(amount = 3000f, type = Constants.RegisterType.DEPOSIT)
 
         composeTestRule.setContent {
-            RegisterItem(register = register)
+            RegisterItem(registerItem = registerItem)
         }
 
         composeTestRule.onNodeWithText("3000").assertIsDisplayed()

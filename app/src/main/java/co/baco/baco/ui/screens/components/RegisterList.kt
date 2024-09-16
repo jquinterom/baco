@@ -9,18 +9,18 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.baco.baco.common.entities.Constants
-import co.baco.baco.common.entities.Register
+import co.baco.baco.common.entities.RegisterItem
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
 fun RegisterList() {
-    val newRegister = Register(amount = 4000f, type = Constants.RegisterType.EXPENSE)
+    val newRegisterItem = RegisterItem(amount = 4000f, type = Constants.RegisterType.EXPENSE)
     LazyColumn(
         modifier = Modifier.testTag("registerList"),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(20, key = {it}) {
-            RegisterItem(newRegister)
+            RegisterItem(newRegisterItem)
         }
     }
 }
