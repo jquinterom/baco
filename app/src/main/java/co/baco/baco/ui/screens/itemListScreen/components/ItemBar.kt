@@ -19,17 +19,20 @@ fun ItemBar(process: Constants.RegisterType, percentage: Float, value: Float = 0
     val processText: String = when (process) {
         Constants.RegisterType.DEPOSIT -> "Ingresos"
         Constants.RegisterType.EXPENSE -> "Egresos"
+        else -> ""
     }
 
     val valueText: String = when (process) {
         Constants.RegisterType.DEPOSIT -> String.format("+ %.0f", value)
         Constants.RegisterType.EXPENSE -> String.format("- %.0f", value)
+        else -> ""
     }
 
 
     val color: Color = when (process) {
         Constants.RegisterType.DEPOSIT -> co.baco.baco.ui.theme.Color.Danube
         Constants.RegisterType.EXPENSE -> co.baco.baco.ui.theme.Color.Amethist
+        else -> MaterialTheme.colorScheme.tertiary
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {

@@ -22,12 +22,14 @@ import androidx.compose.ui.unit.dp
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
-fun CommentInput() {
+fun CommentInput(onCommentChange: (String) -> Unit) {
     val minMaxLines = 4
 
     var comment by rememberSaveable {
         mutableStateOf("")
     }
+
+    onCommentChange(comment)
 
     Box(
         modifier = Modifier
@@ -55,7 +57,7 @@ fun CommentInput() {
 @Composable
 private fun CommentInputPrevDark() {
     BacoTheme {
-        CommentInput()
+        CommentInput {}
     }
 }
 
@@ -63,6 +65,6 @@ private fun CommentInputPrevDark() {
 @Composable
 private fun CommentInputPrevLight() {
     BacoTheme {
-        CommentInput()
+        CommentInput {}
     }
 }

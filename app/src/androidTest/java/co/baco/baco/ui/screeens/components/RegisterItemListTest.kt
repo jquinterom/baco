@@ -15,7 +15,7 @@ class RegisterItemListTest {
     @Test
     fun testRegisterList() {
         composeTestRule.setContent {
-            RegisterList()
+            RegisterList(itemsList = sharedViewModel.items.value ?: emptyList())
         }
 
         composeTestRule.onNodeWithTag("registerList").assertIsDisplayed()

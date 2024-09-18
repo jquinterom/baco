@@ -1,6 +1,7 @@
 package co.baco.baco.ui.screens.components
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,7 +21,10 @@ import co.baco.baco.R
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
-fun Input(modifier: Modifier = Modifier, submitEnabled: (Boolean) -> Unit) {
+fun Input(
+    modifier: Modifier = Modifier,
+    onValueChange: (Float) -> Unit
+) {
     var amount by rememberSaveable {
         mutableStateOf("")
     }
@@ -30,7 +34,9 @@ fun Input(modifier: Modifier = Modifier, submitEnabled: (Boolean) -> Unit) {
         onValueChange = { newAmount ->
             if (newAmount.all { it.isDigit() }) {
                 amount = newAmount
-                submitEnabled(newAmount.isNotEmpty())
+                onValueChange(
+                    if (newAmount.isEmpty()) 0f else newAmount.toFloat()
+                )
             }
         },
         modifier = modifier.fillMaxWidth(),
@@ -39,7 +45,7 @@ fun Input(modifier: Modifier = Modifier, submitEnabled: (Boolean) -> Unit) {
                 Icon(
                     modifier = Modifier.clickable {
                         amount = ""
-                        submitEnabled(false)
+                        onValueChange(0f)
                     },
                     painter = painterResource(id = R.drawable.cancel),
                     contentDescription = "Cancel"
@@ -56,7 +62,7 @@ fun Input(modifier: Modifier = Modifier, submitEnabled: (Boolean) -> Unit) {
 @Composable
 fun InputPrevDark() {
     BacoTheme {
-        Input(submitEnabled = {})
+        Input(onValueChange = {})
     }
 }
 
@@ -65,6 +71,6 @@ fun InputPrevDark() {
 @Composable
 fun InputPrevLight() {
     BacoTheme {
-        Input(submitEnabled = {})
+        Input(onValueChange = {})
     }
 }

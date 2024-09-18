@@ -10,10 +10,10 @@ import javax.inject.Inject
 
 @Module
 @InstallIn(ViewModelComponent::class)
-class GetRegisterUseCase @Inject constructor(
+class InsertRegisterUseCase @Inject constructor(
     private val repository: RegisterRepository
 ) {
-    suspend operator fun invoke(): Flow<List<RegisterItem>> {
-        return repository.getAllRegistersFromDataBase()
+    suspend operator fun invoke(registerItem: RegisterItem): Long {
+        return repository.insertRegister(registerItem)
     }
 }

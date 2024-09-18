@@ -17,7 +17,7 @@ class CommentInputTest {
     @Test
     fun testCommentInput() {
         composeTestRule.setContent {
-            CommentInput()
+            CommentInput(onCommentChange)
         }
 
         val commentInput = composeTestRule.onNodeWithTag("commentInput")

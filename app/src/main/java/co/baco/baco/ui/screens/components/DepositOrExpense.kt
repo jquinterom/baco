@@ -28,22 +28,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import co.baco.baco.common.entities.Constants
 import co.baco.baco.ui.theme.BacoTheme
 
-enum class Process {
-    NONE,
-    DEPOSIT,
-    EXPENSE
-}
-
 @Composable
-fun DepositOrExpense() {
+fun DepositOrExpense(
+    onValueChange: (Constants.RegisterType) -> Unit = {},
+    onCommentChange: (String) -> Unit = {},
+    defaultValue: Constants.RegisterType
+) {
     var itemSelected by rememberSaveable {
-        mutableStateOf(Process.NONE)
+        mutableStateOf(defaultValue)
     }
 
     var isChecked by rememberSaveable { mutableStateOf(false) }
-
 
     Column(
         modifier = Modifier
@@ -58,14 +56,20 @@ fun DepositOrExpense() {
             ) {
             ItemRadioButton(
                 text = "Ingreso",
-                selected = itemSelected == Process.DEPOSIT,
-                onClick = { itemSelected = Process.DEPOSIT },
+                selected = itemSelected == Constants.RegisterType.DEPOSIT,
+                onClick = {
+                    itemSelected = Constants.RegisterType.DEPOSIT
+                    onValueChange(Constants.RegisterType.DEPOSIT)
+                },
             )
 
             ItemRadioButton(
                 text = "Egreso",
-                selected = itemSelected == Process.EXPENSE,
-                onClick = { itemSelected = Process.EXPENSE })
+                selected = itemSelected == Constants.RegisterType.EXPENSE,
+                onClick = {
+                    itemSelected = Constants.RegisterType.EXPENSE
+                    onValueChange(Constants.RegisterType.EXPENSE)
+                })
         }
 
         Comment(isChecked) { isChecked = it }
@@ -75,7 +79,7 @@ fun DepositOrExpense() {
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            CommentInput()
+            CommentInput(onCommentChange)
         }
     }
 }
@@ -138,7 +142,7 @@ fun Comment(isChecked: Boolean, setChecked: (e: Boolean) -> Unit) {
 @Composable
 private fun DepositOrExpensePrev() {
     BacoTheme {
-        DepositOrExpense()
+        DepositOrExpense(defaultValue = Constants.RegisterType.DEPOSIT)
     }
 
 }

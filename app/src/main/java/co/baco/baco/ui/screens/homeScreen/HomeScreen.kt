@@ -1,6 +1,7 @@
 package co.baco.baco.ui.screens.homeScreen
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,17 +20,31 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import co.baco.baco.common.entities.Constants
+import co.baco.baco.common.entities.RegisterItem
 import co.baco.baco.ui.screens.components.DepositOrExpense
 import co.baco.baco.ui.screens.components.Input
 import co.baco.baco.ui.screens.components.RegisterList
 import co.baco.baco.ui.screens.components.SubmitButton
+import co.baco.baco.ui.screens.homeScreen.viewModel.HomeViewModel
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, onNavigateToItemListScreen: () -> Unit) {
-    var submitEnabled by rememberSaveable {
-        mutableStateOf(false)
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    onNavigateToItemListScreen: () -> Unit,
+) {
+    val homeViewModel: HomeViewModel = hiltViewModel()
+
+    var register by rememberSaveable {
+        mutableStateOf<RegisterItem?>(null)
     }
+
+    val submitEnabled =
+        register?.let { it.amount > 0f && it.type != Constants.RegisterType.NONE } ?: false
+
+    Log.d("HomeScreen", register.toString())
 
     Column(
         modifier = modifier
@@ -37,10 +52,31 @@ fun HomeScreen(modifier: Modifier = Modifier, onNavigateToItemListScreen: () -> 
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Input(submitEnabled = { submitEnabled = it })
-        DepositOrExpense()
-        SubmitButton(isEnabled = submitEnabled)
+        Input(
+            onValueChange = { newAmount ->
+                register = updateAmount(newAmount, register)
+            }
+        )
+
+        DepositOrExpense(
+            onValueChange = { newType ->
+                register = updateType(newType, register)
+//                Log.d("HomeScreen1", s.toString())
+            },
+            onCommentChange = { newComment ->
+                register = updateComment(newComment, register)
+            },
+            defaultValue = register.let { it?.type ?: Constants.RegisterType.NONE }
+        )
+
+        SubmitButton(isEnabled = submitEnabled, onClick = {
+            register?.let { item ->
+                homeViewModel.run { insertRegister(registerItem = item) }
+            }
+        })
+
         SeeAll(onNavigateToItemListScreen)
+
         RegisterList()
     }
 }
@@ -57,6 +93,31 @@ fun SeeAll(onNavigateToItemListScreen: () -> Unit) {
     }
 }
 
+
+fun updateComment(newComment: String, register: RegisterItem?): RegisterItem {
+    val comment = newComment.ifEmpty { null }
+
+    return register?.copy(comment = comment)
+        ?: RegisterItem(
+            amount = 0f,
+            type = Constants.RegisterType.NONE,
+            comment = comment
+        )
+}
+
+fun updateType(newType: Constants.RegisterType, register: RegisterItem?): RegisterItem {
+    return register?.copy(type = newType)
+        ?: RegisterItem(amount = 0f, type = newType)
+}
+
+fun updateAmount(newAmount: Float, register: RegisterItem?): RegisterItem {
+    return register?.copy(amount = newAmount)
+        ?: RegisterItem(
+            amount = newAmount,
+            type = Constants.RegisterType.NONE
+        )
+}
+
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun HomeScreenPrevDark() {
@@ -64,7 +125,6 @@ private fun HomeScreenPrevDark() {
         HomeScreen(modifier = Modifier) {}
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

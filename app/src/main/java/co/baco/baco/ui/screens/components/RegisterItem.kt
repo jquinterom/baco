@@ -74,13 +74,14 @@ fun RegisterItem(registerItem: RegisterItem) {
                 val textColor = when (registerItem.type) {
                     Constants.RegisterType.DEPOSIT -> co.baco.baco.ui.theme.Color.Danube
                     Constants.RegisterType.EXPENSE -> co.baco.baco.ui.theme.Color.Amethist
+                    else -> MaterialTheme.colorScheme.tertiary
                 }
                 Text(
                     text = String.format("%.0f", registerItem.amount),
                     color = textColor
                 )
 
-                if (registerItem.comment.isNullOrEmpty()) {
+                if (!registerItem.comment.isNullOrEmpty()) {
                     IconButton(
                         onClick = { showComment = !showComment },
                         modifier = Modifier
@@ -93,9 +94,7 @@ fun RegisterItem(registerItem: RegisterItem) {
                             containerColor = MaterialTheme.colorScheme.secondary,
                             contentColor = textColor
                         ),
-
-
-                        ) {
+                    ) {
                         Icon(
                             imageVector = icon,
                             contentDescription = "Favorite"
@@ -113,7 +112,7 @@ fun RegisterItem(registerItem: RegisterItem) {
                     modifier = Modifier.testTag(
                         tag = "commentTest"
                     ),
-                    text = "Comment",
+                    text = registerItem.comment ?: "",
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.W300,
