@@ -1,15 +1,12 @@
 package co.baco.baco.ui.screens.homeScreen
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -47,19 +44,15 @@ fun HomeScreen(
     val submitEnabled =
         register?.let { it.amount > 0f && it.type != Constants.RegisterType.NONE } ?: false
 
-
-
     Column(
         modifier = modifier
             .padding(horizontal = 16.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Input(
-            onValueChange = { newAmount ->
-                register = updateAmount(newAmount, register)
-            }
-        )
+        Input(onValueChange = { newAmount ->
+            register = updateAmount(newAmount, register)
+        })
 
         DepositOrExpense(
             onValueChange = { newType ->
@@ -71,11 +64,12 @@ fun HomeScreen(
             defaultValue = register.let { it?.type ?: Constants.RegisterType.NONE }
         )
 
-        SubmitButton(isEnabled = submitEnabled, onClick = {
-            register?.let { item ->
-                homeViewModel.run { insertRegister(registerItem = item) }
+        SubmitButton(
+            isEnabled = submitEnabled,
+            onClick = {
+                submitRegister(register, homeViewModel)
             }
-        })
+        )
 
         SeeAll(onNavigateToItemListScreen)
 
@@ -96,6 +90,16 @@ fun SeeAll(onNavigateToItemListScreen: () -> Unit) {
         TextButton(onClick = { onNavigateToItemListScreen() }) {
             Text(text = "Ver todo", color = MaterialTheme.colorScheme.tertiary)
         }
+    }
+}
+
+fun submitRegister(register: RegisterItem?, homeViewModel: HomeViewModel) {
+    register?.let { item ->
+        val newItem = item.copy(
+            createdAt = java.util.Date(),
+            updatedAt = java.util.Date()
+        )
+        homeViewModel.insertRegister(registerItem = newItem)
     }
 }
 

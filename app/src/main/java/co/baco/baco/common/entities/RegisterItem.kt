@@ -9,14 +9,14 @@ data class RegisterItem(
     val amount: Float,
     val type: Constants.RegisterType,
     val comment: String? = null,
-    val createdAt: Date = Date(),
-    val updatedAt: Date = Date()
+    val createdAt: Date? = Date(),
+    val updatedAt: Date? = Date()
 )
 
 fun RegisterItem.toDataBase() = RegisterEntity(
     value = amount,
     type = type,
     comment = comment ?: "",
-    createdAt = createdAt.time,
-    updatedAt = updatedAt.time
+    createdAt = createdAt?.time,
+    updatedAt = updatedAt?.time
 )
