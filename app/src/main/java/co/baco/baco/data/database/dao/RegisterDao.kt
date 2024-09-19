@@ -13,5 +13,5 @@ interface RegisterDao {
     fun getAll(): Flow<List<RegisterEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(register: RegisterEntity): Long
+    fun insert(register: RegisterEntity)
 }

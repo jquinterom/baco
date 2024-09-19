@@ -20,7 +20,7 @@ class RegisterRepository @Inject constructor(
         }
     }
 
-    suspend fun insertRegister(registerItem: RegisterItem): Long {
+    suspend fun insertRegister(registerItem: RegisterItem) {
         return withContext(Dispatchers.IO) {
             registerDao.insert(registerItem.toDataBase())
         }

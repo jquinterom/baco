@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -21,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import co.baco.baco.common.components.CircularLoading
 import co.baco.baco.common.entities.Constants
 import co.baco.baco.common.entities.RegisterItem
 import co.baco.baco.ui.screens.components.DepositOrExpense
@@ -44,7 +47,7 @@ fun HomeScreen(
     val submitEnabled =
         register?.let { it.amount > 0f && it.type != Constants.RegisterType.NONE } ?: false
 
-    Log.d("HomeScreen", register.toString())
+
 
     Column(
         modifier = modifier
@@ -61,7 +64,6 @@ fun HomeScreen(
         DepositOrExpense(
             onValueChange = { newType ->
                 register = updateType(newType, register)
-//                Log.d("HomeScreen1", s.toString())
             },
             onCommentChange = { newComment ->
                 register = updateComment(newComment, register)
@@ -78,6 +80,10 @@ fun HomeScreen(
         SeeAll(onNavigateToItemListScreen)
 
         RegisterList()
+    }
+
+    if (homeViewModel.isLoading.value == true) {
+        CircularLoading()
     }
 }
 

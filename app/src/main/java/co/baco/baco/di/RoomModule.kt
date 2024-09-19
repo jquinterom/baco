@@ -15,7 +15,6 @@ import javax.inject.Singleton
 class RoomModule {
     private val bacoDataBaseName = "baco_database"
 
-
     @Singleton
     @Provides
     fun provideRoomDatabase(@ApplicationContext context: Context): BacoDatabase =

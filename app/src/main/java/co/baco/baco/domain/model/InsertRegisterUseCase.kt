@@ -13,7 +13,7 @@ import javax.inject.Inject
 class InsertRegisterUseCase @Inject constructor(
     private val repository: RegisterRepository
 ) {
-    suspend operator fun invoke(registerItem: RegisterItem): Long {
+    suspend operator fun invoke(registerItem: RegisterItem) {
         return repository.insertRegister(registerItem)
     }
 }
