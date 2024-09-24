@@ -33,6 +33,7 @@ fun RegisterList() {
     sharedViewModel.items.observeForever {
         registerItemList = it
     }
+
     val state = rememberLazyListState(
         prefetchStrategy = LazyListPrefetchStrategy(3),
     )
@@ -42,7 +43,7 @@ fun RegisterList() {
         verticalArrangement = Arrangement.spacedBy(8.dp),
         state = state
     ) {
-        items(registerItemList, key = {it.id}) { item ->
+        items(registerItemList) { item ->
             RegisterItem(item)
         }
     }
