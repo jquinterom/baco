@@ -37,9 +37,6 @@ fun DepositOrExpense(
     onCommentChange: (String) -> Unit = {},
     defaultValue: Constants.RegisterType
 ) {
-    var itemSelected by rememberSaveable {
-        mutableStateOf(defaultValue)
-    }
 
     var isChecked by rememberSaveable { mutableStateOf(false) }
 
@@ -56,18 +53,16 @@ fun DepositOrExpense(
             ) {
             ItemRadioButton(
                 text = "Ingreso",
-                selected = itemSelected == Constants.RegisterType.DEPOSIT,
+                selected = defaultValue == Constants.RegisterType.DEPOSIT,
                 onClick = {
-                    itemSelected = Constants.RegisterType.DEPOSIT
                     onValueChange(Constants.RegisterType.DEPOSIT)
                 },
             )
 
             ItemRadioButton(
                 text = "Egreso",
-                selected = itemSelected == Constants.RegisterType.EXPENSE,
+                selected = defaultValue == Constants.RegisterType.EXPENSE,
                 onClick = {
-                    itemSelected = Constants.RegisterType.EXPENSE
                     onValueChange(Constants.RegisterType.EXPENSE)
                 })
         }

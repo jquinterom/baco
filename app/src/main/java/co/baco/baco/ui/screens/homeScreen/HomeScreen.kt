@@ -1,6 +1,8 @@
 package co.baco.baco.ui.screens.homeScreen
 
+import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +32,7 @@ import co.baco.baco.ui.screens.components.SubmitButton
 import co.baco.baco.ui.screens.homeScreen.viewModel.HomeViewModel
 import co.baco.baco.ui.theme.BacoTheme
 
+@SuppressLint("DefaultLocale")
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -37,8 +40,8 @@ fun HomeScreen(
 ) {
     val homeViewModel: HomeViewModel = hiltViewModel()
 
-    var register by rememberSaveable {
-        mutableStateOf<RegisterItem?>(null)
+    var register: RegisterItem? by rememberSaveable {
+        mutableStateOf(null)
     }
 
     val submitEnabled =
@@ -50,9 +53,14 @@ fun HomeScreen(
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Input(onValueChange = { newAmount ->
-            register = updateAmount(newAmount, register)
-        })
+        Input(
+            onValueChange = { newAmount ->
+                val newValue = if (newAmount.isNotEmpty()) newAmount.toFloat() else 0f
+
+                register = updateAmount(newValue, register)
+            },
+            amount = if (register?.amount == 0f) "" else String.format("%.0f", register?.amount)
+        )
 
         DepositOrExpense(
             onValueChange = { newType ->
@@ -61,13 +69,18 @@ fun HomeScreen(
             onCommentChange = { newComment ->
                 register = updateComment(newComment, register)
             },
-            defaultValue = register.let { it?.type ?: Constants.RegisterType.NONE }
+            defaultValue =  register?.type ?: Constants.RegisterType.NONE
         )
 
         SubmitButton(
             isEnabled = submitEnabled,
             onClick = {
                 submitRegister(register, homeViewModel)
+                register = register?.copy(
+                    amount = 0f,
+                    type = Constants.RegisterType.NONE,
+                    comment = null
+                )
             }
         )
 

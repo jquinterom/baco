@@ -1,7 +1,6 @@
 package co.baco.baco.ui.screens.components
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -9,10 +8,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -23,20 +18,14 @@ import co.baco.baco.ui.theme.BacoTheme
 @Composable
 fun Input(
     modifier: Modifier = Modifier,
-    onValueChange: (Float) -> Unit
+    onValueChange: (String) -> Unit,
+    amount: String
 ) {
-    var amount by rememberSaveable {
-        mutableStateOf("")
-    }
-
     OutlinedTextField(
         value = amount,
         onValueChange = { newAmount ->
             if (newAmount.all { it.isDigit() }) {
-                amount = newAmount
-                onValueChange(
-                    if (newAmount.isEmpty()) 0f else newAmount.toFloat()
-                )
+                onValueChange(newAmount)
             }
         },
         modifier = modifier.fillMaxWidth(),
@@ -44,8 +33,7 @@ fun Input(
             if (amount.isNotEmpty()) {
                 Icon(
                     modifier = Modifier.clickable {
-                        amount = ""
-                        onValueChange(0f)
+                        onValueChange("")
                     },
                     painter = painterResource(id = R.drawable.cancel),
                     contentDescription = "Cancel"
@@ -62,7 +50,7 @@ fun Input(
 @Composable
 fun InputPrevDark() {
     BacoTheme {
-        Input(onValueChange = {})
+        Input(onValueChange = {}, amount = "2000")
     }
 }
 
@@ -71,6 +59,6 @@ fun InputPrevDark() {
 @Composable
 fun InputPrevLight() {
     BacoTheme {
-        Input(onValueChange = {})
+        Input(onValueChange = {}, amount = "")
     }
 }
