@@ -10,10 +10,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.input.KeyboardType
@@ -22,14 +18,8 @@ import androidx.compose.ui.unit.dp
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
-fun CommentInput(onCommentChange: (String) -> Unit) {
+fun CommentInput(comment: String, onCommentChange: (String) -> Unit) {
     val minMaxLines = 4
-
-    var comment by rememberSaveable {
-        mutableStateOf("")
-    }
-
-    onCommentChange(comment)
 
     Box(
         modifier = Modifier
@@ -41,7 +31,7 @@ fun CommentInput(onCommentChange: (String) -> Unit) {
     ) {
         BasicTextField(
             value = comment,
-            onValueChange = { comment = it },
+            onValueChange = onCommentChange,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp)
@@ -57,7 +47,7 @@ fun CommentInput(onCommentChange: (String) -> Unit) {
 @Composable
 private fun CommentInputPrevDark() {
     BacoTheme {
-        CommentInput {}
+        CommentInput(comment = "") {}
     }
 }
 
@@ -65,6 +55,6 @@ private fun CommentInputPrevDark() {
 @Composable
 private fun CommentInputPrevLight() {
     BacoTheme {
-        CommentInput {}
+        CommentInput(comment = "") {}
     }
 }

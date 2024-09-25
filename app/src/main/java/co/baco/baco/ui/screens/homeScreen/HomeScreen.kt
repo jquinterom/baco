@@ -2,7 +2,6 @@ package co.baco.baco.ui.screens.homeScreen
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,6 +46,8 @@ fun HomeScreen(
     val submitEnabled =
         register?.let { it.amount > 0f && it.type != Constants.RegisterType.NONE } ?: false
 
+    var showComment by rememberSaveable { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .padding(horizontal = 16.dp)
@@ -69,7 +70,9 @@ fun HomeScreen(
             onCommentChange = { newComment ->
                 register = updateComment(newComment, register)
             },
-            defaultValue =  register?.type ?: Constants.RegisterType.NONE
+            register = register,
+            showComment = showComment,
+            setShowComment = { showComment = it }
         )
 
         SubmitButton(
@@ -81,6 +84,7 @@ fun HomeScreen(
                     type = Constants.RegisterType.NONE,
                     comment = null
                 )
+                showComment = !showComment
             }
         )
 

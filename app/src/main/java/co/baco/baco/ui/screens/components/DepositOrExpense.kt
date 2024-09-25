@@ -19,27 +19,23 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.baco.baco.common.entities.Constants
+import co.baco.baco.common.entities.RegisterItem
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
 fun DepositOrExpense(
     onValueChange: (Constants.RegisterType) -> Unit = {},
     onCommentChange: (String) -> Unit = {},
-    defaultValue: Constants.RegisterType
+    register: RegisterItem? = null,
+    showComment: Boolean,
+    setShowComment: (Boolean) -> Unit
 ) {
-
-    var isChecked by rememberSaveable { mutableStateOf(false) }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -53,7 +49,7 @@ fun DepositOrExpense(
             ) {
             ItemRadioButton(
                 text = "Ingreso",
-                selected = defaultValue == Constants.RegisterType.DEPOSIT,
+                selected = register?.type == Constants.RegisterType.DEPOSIT,
                 onClick = {
                     onValueChange(Constants.RegisterType.DEPOSIT)
                 },
@@ -61,20 +57,20 @@ fun DepositOrExpense(
 
             ItemRadioButton(
                 text = "Egreso",
-                selected = defaultValue == Constants.RegisterType.EXPENSE,
+                selected = register?.type == Constants.RegisterType.EXPENSE,
                 onClick = {
                     onValueChange(Constants.RegisterType.EXPENSE)
                 })
         }
 
-        Comment(isChecked) { isChecked = it }
+        Comment(showComment, setShowComment)
 
         AnimatedVisibility(
-            visible = isChecked,
+            visible = showComment,
             enter = fadeIn(),
             exit = fadeOut()
         ) {
-            CommentInput(onCommentChange)
+            CommentInput(comment = register?.comment ?: "", onCommentChange)
         }
     }
 }
@@ -137,7 +133,7 @@ fun Comment(isChecked: Boolean, setChecked: (e: Boolean) -> Unit) {
 @Composable
 private fun DepositOrExpensePrev() {
     BacoTheme {
-        DepositOrExpense(defaultValue = Constants.RegisterType.DEPOSIT)
+        DepositOrExpense(register = null, showComment = false, setShowComment = {})
     }
 
 }
