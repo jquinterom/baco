@@ -39,9 +39,7 @@ fun HomeScreen(
 ) {
     val homeViewModel: HomeViewModel = hiltViewModel()
 
-    var register: RegisterItem? by rememberSaveable {
-        mutableStateOf(null)
-    }
+    val register = homeViewModel.registerItem.value
 
     val submitEnabled =
         register?.let { it.amount > 0f && it.type != Constants.RegisterType.NONE } ?: false
@@ -56,19 +54,19 @@ fun HomeScreen(
     ) {
         Input(
             onValueChange = { newAmount ->
-                val newValue = if (newAmount.isNotEmpty()) newAmount.toFloat() else 0f
+                val newValue: Float = if (newAmount.isNotEmpty()) newAmount.toFloat() else 0f
 
-                register = updateAmount(newValue, register)
+                homeViewModel.updateAmount(newValue)
             },
             amount = if (register?.amount == 0f) "" else String.format("%.0f", register?.amount)
         )
 
         DepositOrExpense(
             onValueChange = { newType ->
-                register = updateType(newType, register)
+                homeViewModel.updateType(newType)
             },
             onCommentChange = { newComment ->
-                register = updateComment(newComment, register)
+                homeViewModel.updateComment(newComment)
             },
             register = register,
             showComment = showComment,
@@ -79,11 +77,6 @@ fun HomeScreen(
             isEnabled = submitEnabled,
             onClick = {
                 submitRegister(register, homeViewModel)
-                register = register?.copy(
-                    amount = 0f,
-                    type = Constants.RegisterType.NONE,
-                    comment = null
-                )
                 showComment = !showComment
             }
         )
@@ -118,31 +111,6 @@ fun submitRegister(register: RegisterItem?, homeViewModel: HomeViewModel) {
         )
         homeViewModel.insertRegister(registerItem = newItem)
     }
-}
-
-
-fun updateComment(newComment: String, register: RegisterItem?): RegisterItem {
-    val comment = newComment.ifEmpty { null }
-
-    return register?.copy(comment = comment)
-        ?: RegisterItem(
-            amount = 0f,
-            type = Constants.RegisterType.NONE,
-            comment = comment
-        )
-}
-
-fun updateType(newType: Constants.RegisterType, register: RegisterItem?): RegisterItem {
-    return register?.copy(type = newType)
-        ?: RegisterItem(amount = 0f, type = newType)
-}
-
-fun updateAmount(newAmount: Float, register: RegisterItem?): RegisterItem {
-    return register?.copy(amount = newAmount)
-        ?: RegisterItem(
-            amount = newAmount,
-            type = Constants.RegisterType.NONE
-        )
 }
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
