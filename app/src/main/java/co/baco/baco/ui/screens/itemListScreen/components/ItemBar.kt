@@ -11,27 +11,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
-import co.baco.baco.common.entities.Constants
+import co.baco.baco.common.utils.Constants
 
 @SuppressLint("DefaultLocale")
 @Composable
 fun ItemBar(process: Constants.RegisterType, percentage: Float, value: Float = 0f) {
     val processText: String = when (process) {
         Constants.RegisterType.DEPOSIT -> "Ingresos"
-        Constants.RegisterType.EXPENSE -> "Egresos"
+        Constants.RegisterType.WITHDRAWAL -> "Egresos"
         else -> ""
     }
 
     val valueText: String = when (process) {
         Constants.RegisterType.DEPOSIT -> String.format("+ %.0f", value)
-        Constants.RegisterType.EXPENSE -> String.format("- %.0f", value)
+        Constants.RegisterType.WITHDRAWAL -> String.format("- %.0f", value)
         else -> ""
     }
 
 
     val color: Color = when (process) {
         Constants.RegisterType.DEPOSIT -> co.baco.baco.ui.theme.Color.Danube
-        Constants.RegisterType.EXPENSE -> co.baco.baco.ui.theme.Color.Amethist
+        Constants.RegisterType.WITHDRAWAL -> co.baco.baco.ui.theme.Color.Amethist
         else -> MaterialTheme.colorScheme.tertiary
     }
 

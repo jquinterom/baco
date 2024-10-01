@@ -27,7 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import co.baco.baco.common.entities.Constants
+import co.baco.baco.common.utils.Constants
 import co.baco.baco.common.entities.RegisterItem
 import co.baco.baco.ui.screens.components.RegisterItem
 import co.baco.baco.ui.screens.itemListScreen.components.ItemBar
@@ -85,7 +85,7 @@ fun ItemsHeader() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ItemBar(process = Constants.RegisterType.EXPENSE, percentage = .5f)
+            ItemBar(process = Constants.RegisterType.WITHDRAWAL, percentage = .5f)
         }
     }
 }

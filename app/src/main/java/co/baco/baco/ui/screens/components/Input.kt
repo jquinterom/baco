@@ -13,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import co.baco.baco.R
+import co.baco.baco.common.utils.REGEX_NUMBER_AND_DOT
 import co.baco.baco.ui.theme.BacoTheme
 
 @Composable
@@ -24,7 +25,7 @@ fun Input(
     OutlinedTextField(
         value = amount,
         onValueChange = { newAmount ->
-            if (newAmount.all { it.isDigit() }) {
+            if (REGEX_NUMBER_AND_DOT.matches(newAmount)) {
                 onValueChange(newAmount)
             }
         },

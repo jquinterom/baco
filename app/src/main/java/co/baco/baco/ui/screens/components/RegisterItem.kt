@@ -39,7 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import co.baco.baco.common.entities.Constants
+import co.baco.baco.common.utils.Constants
 import co.baco.baco.common.entities.RegisterItem
 import co.baco.baco.ui.theme.BacoTheme
 
@@ -49,6 +49,7 @@ fun RegisterItem(registerItem: RegisterItem) {
     var showComment by rememberSaveable {
         mutableStateOf(false)
     }
+
     val icon: ImageVector =
         if (showComment) Icons.Filled.KeyboardArrowUp else Icons.Rounded.KeyboardArrowDown
 
@@ -73,11 +74,11 @@ fun RegisterItem(registerItem: RegisterItem) {
             ) {
                 val textColor = when (registerItem.type) {
                     Constants.RegisterType.DEPOSIT -> co.baco.baco.ui.theme.Color.Danube
-                    Constants.RegisterType.EXPENSE -> co.baco.baco.ui.theme.Color.Amethist
+                    Constants.RegisterType.WITHDRAWAL -> co.baco.baco.ui.theme.Color.Amethist
                     else -> MaterialTheme.colorScheme.tertiary
                 }
                 Text(
-                    text = String.format("%.0f", registerItem.amount),
+                    text = registerItem.amount,
                     color = textColor
                 )
 
@@ -97,7 +98,7 @@ fun RegisterItem(registerItem: RegisterItem) {
                     ) {
                         Icon(
                             imageVector = icon,
-                            contentDescription = "Favorite"
+                            contentDescription = "ShowComment"
                         )
                     }
                 }
@@ -129,7 +130,7 @@ fun RegisterItem(registerItem: RegisterItem) {
 @Composable
 private fun RegisterItemPrevDark() {
     BacoTheme {
-        RegisterItem(RegisterItem(amount = 3000f, type = Constants.RegisterType.DEPOSIT))
+        RegisterItem(RegisterItem(amount = "3000", type = Constants.RegisterType.DEPOSIT))
     }
 }
 
@@ -138,6 +139,6 @@ private fun RegisterItemPrevDark() {
 @Composable
 private fun RegisterItemPrevLight() {
     BacoTheme {
-        RegisterItem(RegisterItem(amount = 3000f, type = Constants.RegisterType.DEPOSIT))
+        RegisterItem(RegisterItem(amount = "3000", type = Constants.RegisterType.DEPOSIT))
     }
 }

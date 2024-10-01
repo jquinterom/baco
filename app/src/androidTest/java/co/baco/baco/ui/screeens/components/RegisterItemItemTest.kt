@@ -6,12 +6,15 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import co.baco.baco.common.entities.Constants
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import co.baco.baco.common.utils.Constants
 import co.baco.baco.common.entities.RegisterItem
 import co.baco.baco.ui.screens.components.RegisterItem
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
+@RunWith(AndroidJUnit4::class)
 class RegisterItemItemTest {
 
     @get:Rule
@@ -19,14 +22,18 @@ class RegisterItemItemTest {
 
     @Test
     fun testRegisterItem() {
-        val registerItem = RegisterItem(amount = 3000f, type = Constants.RegisterType.DEPOSIT)
+        val registerItem = RegisterItem(
+            amount = "3",
+            type = Constants.RegisterType.DEPOSIT,
+            comment = "This is a comment"
+        )
 
         composeTestRule.setContent {
             RegisterItem(registerItem = registerItem)
         }
 
-        composeTestRule.onNodeWithText("3000").assertIsDisplayed()
-        composeTestRule.onNodeWithContentDescription("Favorite").assertIsDisplayed()
+        composeTestRule.onNodeWithText("3").assertIsDisplayed()
+        composeTestRule.onNodeWithContentDescription("ShowComment").assertIsDisplayed()
 
         val iconButton = composeTestRule.onNodeWithTag(testTag = "showComment")
         iconButton.assertIsDisplayed()

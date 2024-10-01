@@ -1,14 +1,19 @@
 package co.baco.baco.ui.screeens.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.baco.baco.ui.screens.components.Input
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 
-
+@RunWith(AndroidJUnit4::class)
 class InputTest {
 
     @get:Rule
@@ -17,11 +22,17 @@ class InputTest {
     @Test
     fun testInput() {
         var submitEnabled = false
+        var amount: String by mutableStateOf("")
 
         composeTestRule.setContent {
-            Input(modifier = Modifier.fillMaxWidth()) { enabled ->
-                submitEnabled = enabled
-            }
+            Input(
+                modifier = Modifier.fillMaxWidth(),
+                onValueChange = {
+                    submitEnabled = it.isNotEmpty()
+                    amount = it
+                },
+                amount = amount
+            )
         }
 
         // Check initial state

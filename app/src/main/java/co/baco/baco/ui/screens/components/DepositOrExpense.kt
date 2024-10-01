@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import co.baco.baco.common.entities.Constants
+import co.baco.baco.common.utils.Constants
 import co.baco.baco.common.entities.RegisterItem
 import co.baco.baco.ui.theme.BacoTheme
 
@@ -57,9 +57,9 @@ fun DepositOrExpense(
 
             ItemRadioButton(
                 text = "Egreso",
-                selected = register?.type == Constants.RegisterType.EXPENSE,
+                selected = register?.type == Constants.RegisterType.WITHDRAWAL,
                 onClick = {
-                    onValueChange(Constants.RegisterType.EXPENSE)
+                    onValueChange(Constants.RegisterType.WITHDRAWAL)
                 })
         }
 

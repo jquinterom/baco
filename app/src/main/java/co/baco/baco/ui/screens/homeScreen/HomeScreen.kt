@@ -22,8 +22,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.baco.baco.common.components.CircularLoading
-import co.baco.baco.common.entities.Constants
 import co.baco.baco.common.entities.RegisterItem
+import co.baco.baco.common.utils.Constants
 import co.baco.baco.ui.screens.components.DepositOrExpense
 import co.baco.baco.ui.screens.components.Input
 import co.baco.baco.ui.screens.components.RegisterList
@@ -39,10 +39,10 @@ fun HomeScreen(
 ) {
     val homeViewModel: HomeViewModel = hiltViewModel()
 
-    val register = homeViewModel.registerItem.value
+    val register: RegisterItem? = homeViewModel.registerItem.value
 
     val submitEnabled =
-        register?.let { it.amount > 0f && it.type != Constants.RegisterType.NONE } ?: false
+        register?.let { it.amount.toDouble() > 0 && it.type != Constants.RegisterType.NONE } ?: false
 
     var showComment by rememberSaveable { mutableStateOf(false) }
 
@@ -54,11 +54,9 @@ fun HomeScreen(
     ) {
         Input(
             onValueChange = { newAmount ->
-                val newValue: Float = if (newAmount.isNotEmpty()) newAmount.toFloat() else 0f
-
-                homeViewModel.updateAmount(newValue)
+                homeViewModel.updateAmount(newAmount)
             },
-            amount = if (register?.amount == 0f) "" else String.format("%.0f", register?.amount)
+            amount = register?.amount ?: ""
         )
 
         DepositOrExpense(

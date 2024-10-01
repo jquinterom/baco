@@ -16,7 +16,9 @@ class RegisterRepository @Inject constructor(
     suspend fun getAllRegistersFromDataBase(): Flow<List<RegisterItem>> {
         return withContext(Dispatchers.IO) {
             val response = registerDao.getAll()
-            response.map { list -> list.map { it.toDomain() } }
+            response.map { list ->
+                list.map { it.toDomain() }
+            }
         }
     }
 

@@ -85,6 +85,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    // testing Hilt
+    androidTestImplementation (libs.hilt.android.testing)
+
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
