@@ -1,6 +1,5 @@
 package co.baco.baco.ui.screens.itemListScreen.components
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,9 +12,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
 import co.baco.baco.common.utils.Constants
 
-@SuppressLint("DefaultLocale")
 @Composable
-fun ItemBar(process: Constants.RegisterType, percentage: Float, value: Float = 0f) {
+fun ItemBar(
+    process: Constants.RegisterType,
+    percentage: Float,
+    value: String
+) {
     val processText: String = when (process) {
         Constants.RegisterType.DEPOSIT -> "Ingresos"
         Constants.RegisterType.WITHDRAWAL -> "Egresos"
@@ -23,8 +25,8 @@ fun ItemBar(process: Constants.RegisterType, percentage: Float, value: Float = 0
     }
 
     val valueText: String = when (process) {
-        Constants.RegisterType.DEPOSIT -> String.format("+ %.0f", value)
-        Constants.RegisterType.WITHDRAWAL -> String.format("- %.0f", value)
+        Constants.RegisterType.DEPOSIT -> value
+        Constants.RegisterType.WITHDRAWAL -> value
         else -> ""
     }
 

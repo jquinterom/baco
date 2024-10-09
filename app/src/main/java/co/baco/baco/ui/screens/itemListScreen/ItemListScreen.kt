@@ -20,15 +20,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import co.baco.baco.common.utils.Constants
 import co.baco.baco.common.entities.RegisterItem
+import co.baco.baco.common.utils.Constants
+import co.baco.baco.common.utils.formatToCurrency
 import co.baco.baco.ui.screens.components.RegisterItem
 import co.baco.baco.ui.screens.itemListScreen.components.ItemBar
 import co.baco.baco.ui.screens.viewModel.SharedViewModel
@@ -36,19 +35,19 @@ import co.baco.baco.ui.theme.BacoTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun ItemListScreen() {
-    val sharedViewModel: SharedViewModel = hiltViewModel()
+fun ItemListScreen(sharedViewModel: SharedViewModel = hiltViewModel()) {
 
     val state = rememberLazyListState(
         prefetchStrategy = LazyListPrefetchStrategy(3),
     )
-    var registerItemList by rememberSaveable {
-        mutableStateOf(emptyList<RegisterItem>())
-    }
 
-    sharedViewModel.items.observeForever {
-        registerItemList = it
-    }
+    val registerItemList: List<RegisterItem> by sharedViewModel.items.observeAsState(emptyList())
+
+    val deposits: Double  by sharedViewModel.deposits.observeAsState(0.0)
+    val withDraws : Double by sharedViewModel.withDraws.observeAsState(0.0)
+
+    val depositsPercentage: Float by sharedViewModel.depositsPercentage.observeAsState(.0f)
+    val withDrawsPercentage: Float by sharedViewModel.withDrawsPercentage.observeAsState(.0f)
 
     Column(
         modifier = Modifier
@@ -56,16 +55,26 @@ fun ItemListScreen() {
             .padding(8.dp)
     ) {
 
-        ItemsHeader()
+        ItemsHeader(
+            depositPercentage = depositsPercentage,
+            withDrawPercentage = withDrawsPercentage,
+            depositValue = formatToCurrency(deposits),
+            withDrawValue = formatToCurrency(withDraws)
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        ItemsBody(state, registerItemList = registerItemList)
+        ItemsBody(state = state, registerItemList = registerItemList)
     }
 }
 
 @Composable
-fun ItemsHeader() {
+fun ItemsHeader(
+    depositPercentage: Float,
+    withDrawPercentage: Float,
+    depositValue: String,
+    withDrawValue: String
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.elevatedCardElevation(16.dp),
@@ -73,7 +82,6 @@ fun ItemsHeader() {
             containerColor = MaterialTheme.colorScheme.onSecondary
         ),
         shape = RoundedCornerShape(4.dp)
-
     ) {
         Column(
             modifier = Modifier
@@ -81,11 +89,19 @@ fun ItemsHeader() {
                 .padding(vertical = 8.dp, horizontal = 4.dp)
         ) {
 
-            ItemBar(process = Constants.RegisterType.DEPOSIT, percentage = .7f)
+            ItemBar(
+                process = Constants.RegisterType.DEPOSIT,
+                percentage = depositPercentage,
+                value = depositValue
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            ItemBar(process = Constants.RegisterType.WITHDRAWAL, percentage = .5f)
+            ItemBar(
+                process = Constants.RegisterType.WITHDRAWAL,
+                percentage = withDrawPercentage,
+                value = withDrawValue
+            )
         }
     }
 }
@@ -106,7 +122,7 @@ fun ItemsBody(state: LazyListState, registerItemList: List<RegisterItem>) {
 @Composable
 private fun ItemListScreenPrevDark() {
     BacoTheme {
-        ItemListScreen()
+        ItemListScreen(sharedViewModel = hiltViewModel())
     }
 }
 
@@ -115,6 +131,6 @@ private fun ItemListScreenPrevDark() {
 @Composable
 private fun ItemListScreenPrevLight() {
     BacoTheme {
-        ItemListScreen()
+        ItemListScreen(sharedViewModel = hiltViewModel())
     }
 }
