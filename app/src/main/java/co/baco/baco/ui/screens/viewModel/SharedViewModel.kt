@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import co.baco.baco.common.entities.RegisterItem
+import co.baco.baco.common.utils.Constants
 import co.baco.baco.domain.model.GetRegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -33,11 +34,6 @@ class SharedViewModel @Inject constructor(
 
     init {
         loadItems()
-
-        _deposits.value = 2000.4
-        _withDraws.value = 300.2
-        _withDrawsPercentage.value = 0.3f
-        _depositsPercentage.value = 0.7f
     }
 
     private fun loadItems() {
@@ -45,25 +41,34 @@ class SharedViewModel @Inject constructor(
             _isLoading.postValue(true)
             val registers = getItemsUseCase()
 
-            registers.collect {
-//                it.map { register ->
-//                    getValues(register.type, register.amount)
-//                }
-                _registers.value = it
+            registers.collect { registerList ->
+                registerList.forEach { register ->
+                    getValues(register.type, register.amount)
+                }
+
+                calculatePercentage()
+
+                _registers.value = registerList
             }
             _isLoading.postValue(false)
         }
     }
 
+    private fun getValues(type: Constants.RegisterType, value: String) {
+        if (type == Constants.RegisterType.DEPOSIT) {
+            _deposits.value = (_deposits.value ?: 0.0) + value.toDouble()
+        } else {
+            _withDraws.value = (_withDraws.value ?: 0.0) + value.toDouble()
+        }
+    }
 
-//    private fun getValues(type: Constants.RegisterType, value: String) {
-//
-//        if(type == Constants.RegisterType.DEPOSIT){
-//            _deposits.value = _deposits.value?.plus(value.toDouble())
-//        }else{
-//            _withDraws.value = _withDraws.value?.plus(value.toDouble())
-//        }
-//        Log.d("SharedViewModel", "registers: $type, $value")
-//
-//    }
+    private fun calculatePercentage() {
+        val deposits = deposits.value ?: 0.0
+        val withDraws = withDraws.value ?: 0.0
+        val total = deposits + withDraws
+        if (total > 0) {
+            _depositsPercentage.value = (deposits / total ).toFloat()
+            _withDrawsPercentage.value = (withDraws / total).toFloat()
+        }
+    }
 }
