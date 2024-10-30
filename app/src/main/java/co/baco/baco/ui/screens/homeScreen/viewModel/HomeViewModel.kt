@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.baco.baco.common.utils.Constants
 import co.baco.baco.common.entities.RegisterItem
+import co.baco.baco.common.utils.Constants
 import co.baco.baco.domain.model.InsertRegisterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -41,7 +41,7 @@ class HomeViewModel @Inject constructor(
 
         _registerItem.value = _registerItem.value?.copy(comment = comment)
             ?: RegisterItem(
-                amount = "0",
+                amount = "",
                 type = Constants.RegisterType.NONE,
                 comment = comment
             )
@@ -57,7 +57,7 @@ class HomeViewModel @Inject constructor(
 
     fun updateType(newType: Constants.RegisterType) {
         _registerItem.value = _registerItem.value?.copy(type = newType)
-            ?: RegisterItem(amount = "0", type = newType)
+            ?: RegisterItem(amount = "", type = newType)
     }
 
 

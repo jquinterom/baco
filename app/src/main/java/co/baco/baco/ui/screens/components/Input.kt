@@ -25,7 +25,9 @@ fun Input(
     OutlinedTextField(
         value = amount,
         onValueChange = { newAmount ->
-            if (REGEX_NUMBER_AND_DOT.matches(newAmount)) {
+            if (newAmount.isEmpty()) {
+                onValueChange("")
+            } else if (REGEX_NUMBER_AND_DOT.matches(newAmount)) {
                 onValueChange(newAmount)
             }
         },

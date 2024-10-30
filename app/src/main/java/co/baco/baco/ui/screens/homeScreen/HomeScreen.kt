@@ -42,7 +42,9 @@ fun HomeScreen(
     val register: RegisterItem? = homeViewModel.registerItem.value
 
     val submitEnabled =
-        register?.let { it.amount.toDouble() > 0 && it.type != Constants.RegisterType.NONE } ?: false
+        register?.let { item ->
+            item.amount.isNotEmpty() && item.type != Constants.RegisterType.NONE
+        } ?: false
 
     var showComment by rememberSaveable { mutableStateOf(false) }
 
